@@ -7,8 +7,8 @@ use crate::{constants::PLAYER_SHIP1_BLUE, PlayerState};
 #[derive(Component)]
 pub struct Spaceship {
     pub velocity: Vec2,
-    pub speed: i32,
-    pub speed_max: i32,
+    pub movement_speed: f32,
+    pub movement_speed_max: f32,
     pub rotation_speed: f32,
     pub rotation_speed_max: f32,
 }
@@ -39,17 +39,14 @@ pub fn spawn_player_spaceship(
                     scale: Vec3::new(0.3, 0.3, 0.3),
                 },
                 texture: asset_server.load(PLAYER_SHIP1_BLUE),
-                // sprite: Sprite {
-                //     ..Default::default()
-                // },
                 ..Default::default()
             })
             .insert(Spaceship {
-                velocity: Vec2::ZERO,
-                speed: 10,
-                speed_max: 50,
-                rotation_speed: f32::to_radians(240.0), // degrees per second
-                rotation_speed_max: f32::to_radians(360.0), // degrees per second
+                velocity: Vec2::new(0., 0.),
+                movement_speed: 3.,
+                movement_speed_max: 300.,
+                rotation_speed: f32::to_radians(90.0), // degrees per second
+                rotation_speed_max: f32::to_radians(120.0), // degrees per second
             })
             .id();
         player_state.spaceship = Some(id)

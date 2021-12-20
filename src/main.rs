@@ -5,7 +5,7 @@ mod constants;
 mod movement;
 mod spawner;
 
-const TIMESTEP_60_PER_SECOND: f64 = 1. / 60.;
+const TIME_STEP: f32 = 1. / 60.;
 // const TIMESTEP_2_PER_SECOND: f64 = 30. / 60.;
 
 pub struct PlayerState {
