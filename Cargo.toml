@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 rand = "0.8"
 bevy = {git = "https://github.com/bevyengine/bevy.git"}
+bevy_ecs_tilemap = {git = "https://github.com/StarArawn/bevy_ecs_tilemap", branch = "new-renderer"}

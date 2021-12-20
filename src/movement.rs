@@ -1,5 +1,3 @@
-use std::f32::consts::PI;
-
 use bevy::{core::FixedTimestep, math::Vec3Swizzles, prelude::*};
 
 use crate::{spawner::Spaceship, TIME_STEP};
@@ -46,12 +44,10 @@ fn move_spaceship(mut query: Query<(&mut Transform, &mut Spaceship)>, keys: Res<
 
         let movement_direction = transform.rotation * Vec3::Y;
         let movement_distance = movement_factor * spaceship.movement_speed * TIME_STEP;
-        println!("movement_distance {}", movement_distance);
         let translation_delta = (movement_direction * movement_distance).xy(); // dont need z
         let translation_delta_with_velocity = translation_delta + spaceship.velocity;
 
-        // Break
-
+        // Break or go
         if spaceship.velocity.x.abs() < 0.5 && spaceship.velocity.y.abs() < 0.5 {
             println!("Clamped");
         } else {
@@ -62,25 +58,5 @@ fn move_spaceship(mut query: Query<(&mut Transform, &mut Spaceship)>, keys: Res<
             );
         }
         spaceship.velocity += translation_delta;
-
-        // println!("rot after {}", forward);
-        // let angular_velocity = ((forward - spaceship.velocity) / TIME_STEP) * (linear_trust);
-        // println!("angular_velocity {}", angular_velocity);
-
-        // transform.translation += Vec3::new(angular_velocity.x, angular_velocity.y, 0.);
-        // println!("trust_direction before {}", trust_direction);
-        // trust_direction = trust_direction * TIMESTEP_60_PER_SECOND as f32;
-        // println!("trust_direction after {}", trust_direction);
-
-        // spaceship.velocity += trust_direction;
-        // println!("spaceship.velocity {}", spaceship.velocity.abs());
-
-        // println!("transform.translation {}", transform.translation.xy().abs());
-
-        // if spaceship.velocity.x.abs() < 0.2 && spaceship.velocity.y.abs() < 0.2 {
-        //     println!("Clamped");
-        // } else {
-        //     transform.translation += Vec3::new(spaceship.velocity.x, spaceship.velocity.y, 0.);
-        // }
     }
 }
