@@ -1,19 +1,10 @@
 use bevy::{core::FixedTimestep, prelude::*};
 
 use crate::{
+    components::Spaceship,
     constants::{LAYER_PLAYER, PLAYER_SHIP1_BLUE},
-    PlayerState,
+    resource::Player,
 };
-
-#[derive(Component)]
-pub struct Spaceship {
-    pub velocity: Vec2,
-    pub movement_speed: f32,
-    pub movement_speed_max: f32,
-    pub rotation_speed: f32,
-    pub rotation_speed_max: f32,
-    pub break_power: f32,
-}
 
 pub struct SpawnerPlugin;
 
@@ -30,9 +21,9 @@ impl Plugin for SpawnerPlugin {
 pub fn spawn_player_spaceship(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    mut player_state: ResMut<PlayerState>,
+    mut player: ResMut<Player>,
 ) {
-    if None == player_state.spaceship {
+    if None == player.spaceship {
         let id = commands
             .spawn_bundle(SpriteBundle {
                 transform: Transform {
@@ -52,6 +43,6 @@ pub fn spawn_player_spaceship(
                 break_power: 300.,
             })
             .id();
-        player_state.spaceship = Some(id)
+        player.spaceship = Some(id)
     }
 }

@@ -1,6 +1,6 @@
 use bevy::{core::FixedTimestep, log, math::Vec3Swizzles, prelude::*};
 
-use crate::{spawner::Spaceship, TIME_STEP};
+use crate::{components::Spaceship, TIME_STEP};
 
 pub struct MovementPlugin;
 
@@ -55,13 +55,13 @@ fn move_spaceship(mut query: Query<(&mut Transform, &mut Spaceship)>, keys: Res<
             spaceship.velocity *= break_power_as_percentage;
             // TODO - Implement reverse
         }
-        println!(
-            "spaceship.velocity.length() {}",
-            spaceship.velocity.length()
-        );
+
+        // Clamp to stop when not trusting and movement close to 0
         if spaceship.velocity.length() < 1. && movement_factor == 0.0 {
             spaceship.velocity = Vec2::ZERO;
         }
+
+        // Start moving if any trust given or always when moving fast
         if movement_factor > 0.0 || spaceship.velocity.length() > 1. {
             transform.translation.x += translation_delta_with_velocity.x;
             transform.translation.y += translation_delta_with_velocity.y;

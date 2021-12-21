@@ -1,22 +1,20 @@
-use bevy::prelude::*;
-use constants::{LAYER_MAP, SPACE_BG_3};
+use bevy::{diagnostic::FrameTimeDiagnosticsPlugin, log::LogPlugin, prelude::*};
+use bevy_remote_devtools_plugin::RemoteDevToolsPlugin;
+use camera::CameraPlugin;
 use map::MapPlugin;
 use movement::MovementPlugin;
+use resource::ResourcePlugin;
 use spawner::SpawnerPlugin;
 
+mod camera;
+mod components;
 mod constants;
 mod map;
 mod movement;
+mod resource;
 mod spawner;
 
 const TIME_STEP: f32 = 1. / 60.;
-
-pub struct PlayerState {
-    spaceship: Option<Entity>,
-}
-pub struct WorldState {
-    map: Option<Entity>,
-}
 
 fn main() {
     App::new()
@@ -30,23 +28,17 @@ fn main() {
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
-        .add_startup_system(setup)
+        .add_plugin(RemoteDevToolsPlugin::new("Galatic debug", 3030))
+        // Optional: If you want to see fps and frame time in the tools.
+        .add_plugin(FrameTimeDiagnosticsPlugin::default())
+        // RemoteDevToolsPlugin will replace bevys LogPlugin with a similar implementation.
+        // LogSettings Resource can be still used to configure what logs are shown.
+        .add_plugins_with(DefaultPlugins, |group| group.disable::<LogPlugin>())
+        .add_plugin(ResourcePlugin)
         .add_plugin(MapPlugin)
+        .add_plugin(CameraPlugin)
         .add_plugin(SpawnerPlugin)
         .add_plugin(MovementPlugin)
         .add_system(bevy::input::system::exit_on_esc_system)
         .run();
-}
-
-pub fn setup(mut commands: Commands) {
-    // set window
-    // let window = windows.get_primary_mut().unwrap();
-    // window.set_position(IVec2::new(100, 100));
-
-    // add resources
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
-    commands.insert_resource(PlayerState { spaceship: None });
-    commands.insert_resource(WorldState { map: None });
-
-    // Map
 }
