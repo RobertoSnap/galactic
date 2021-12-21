@@ -1,4 +1,4 @@
-use bevy::{core::FixedTimestep, math::Vec3Swizzles, prelude::*};
+use bevy::{core::FixedTimestep, log, math::Vec3Swizzles, prelude::*};
 
 use crate::{spawner::Spaceship, TIME_STEP};
 
@@ -19,6 +19,7 @@ fn move_spaceship(mut query: Query<(&mut Transform, &mut Spaceship)>, keys: Res<
     for (mut transform, mut spaceship) in query.iter_mut() {
         let mut rotation_factor = 0.0;
         let mut movement_factor = 0.0;
+        let mut break_or_reverse_factor = 0.0;
 
         let up = keys.pressed(KeyCode::W);
         let down = keys.pressed(KeyCode::S);
@@ -29,7 +30,7 @@ fn move_spaceship(mut query: Query<(&mut Transform, &mut Spaceship)>, keys: Res<
             movement_factor += 1.0;
         }
         if down {
-            movement_factor -= 1.0;
+            break_or_reverse_factor += 1.0;
         }
         if left {
             rotation_factor += 1.0;
@@ -48,14 +49,22 @@ fn move_spaceship(mut query: Query<(&mut Transform, &mut Spaceship)>, keys: Res<
         let translation_delta_with_velocity = translation_delta + spaceship.velocity;
 
         // Break or go
-        if spaceship.velocity.x.abs() < 0.5 && spaceship.velocity.y.abs() < 0.5 {
-            println!("Clamped");
-        } else {
-            transform.translation += Vec3::new(
-                translation_delta_with_velocity.x,
-                translation_delta_with_velocity.y,
-                0.,
-            );
+        if break_or_reverse_factor > 0. {
+            let break_power = break_or_reverse_factor * spaceship.break_power * TIME_STEP;
+            let break_power_as_percentage = 1. - (break_power / 300.);
+            spaceship.velocity *= break_power_as_percentage;
+            // TODO - Implement reverse
+        }
+        println!(
+            "spaceship.velocity.length() {}",
+            spaceship.velocity.length()
+        );
+        if spaceship.velocity.length() < 1. && movement_factor == 0.0 {
+            spaceship.velocity = Vec2::ZERO;
+        }
+        if movement_factor > 0.0 || spaceship.velocity.length() > 1. {
+            transform.translation.x += translation_delta_with_velocity.x;
+            transform.translation.y += translation_delta_with_velocity.y;
         }
         spaceship.velocity += translation_delta;
     }

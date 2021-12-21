@@ -1,8 +1,9 @@
 use bevy::{core::FixedTimestep, prelude::*};
 
-use crate::{constants::PLAYER_SHIP1_BLUE, PlayerState};
-
-// use bevy::prelude::*;
+use crate::{
+    constants::{LAYER_PLAYER, PLAYER_SHIP1_BLUE},
+    PlayerState,
+};
 
 #[derive(Component)]
 pub struct Spaceship {
@@ -11,6 +12,7 @@ pub struct Spaceship {
     pub movement_speed_max: f32,
     pub rotation_speed: f32,
     pub rotation_speed_max: f32,
+    pub break_power: f32,
 }
 
 pub struct SpawnerPlugin;
@@ -34,7 +36,7 @@ pub fn spawn_player_spaceship(
         let id = commands
             .spawn_bundle(SpriteBundle {
                 transform: Transform {
-                    translation: Vec3::new(50., 50., 0.),
+                    translation: Vec3::new(80., 80., LAYER_PLAYER),
                     rotation: Quat::from_rotation_y(0.),
                     scale: Vec3::new(0.3, 0.3, 0.3),
                 },
@@ -47,6 +49,7 @@ pub fn spawn_player_spaceship(
                 movement_speed_max: 300.,
                 rotation_speed: f32::to_radians(90.0), // degrees per second
                 rotation_speed_max: f32::to_radians(120.0), // degrees per second
+                break_power: 300.,
             })
             .id();
         player_state.spaceship = Some(id)
