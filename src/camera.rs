@@ -10,10 +10,10 @@ impl Plugin for CameraPlugin {
 }
 
 fn camera_follows_player(
-    mut camera_query: Query<(&mut Transform), (With<MainCamera>, Without<Spaceship>)>,
+    mut camera_query: Query<&mut Transform, (With<MainCamera>, Without<Spaceship>)>,
     player_query: Query<&Transform, With<Spaceship>>,
 ) {
-    let (mut camera_transform) = camera_query.single_mut();
+    let mut camera_transform = camera_query.single_mut();
     let player_transform = player_query.get_single();
     if let Ok(t) = player_transform {
         camera_transform.translation = t.translation;

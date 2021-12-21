@@ -1,4 +1,4 @@
-use bevy::{core::FixedTimestep, log, math::Vec3Swizzles, prelude::*};
+use bevy::{core::FixedTimestep, math::Vec3Swizzles, prelude::*};
 
 use crate::{components::Spaceship, TIME_STEP};
 
