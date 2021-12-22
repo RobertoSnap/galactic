@@ -23,7 +23,7 @@ pub fn fire(
     if fire {
         println!("fire");
         let spaceship_transform = query.single();
-        let id = commands
+        let _id = commands
             .spawn_bundle(ProjectileBundle {
                 sprite: SpriteBundle {
                     transform: *spaceship_transform,

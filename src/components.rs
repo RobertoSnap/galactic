@@ -1,11 +1,11 @@
 use bevy::prelude::*;
 
-#[derive(Component)]
-pub struct Velocity(Vec2);
+#[derive(Component, Debug)]
+pub struct Velocity(pub Vec2);
 
 impl Velocity {
     pub fn default() -> Self {
-        return Self(Vec2::ZERO);
+        return Self(Vec2::ONE);
     }
 }
 
@@ -40,6 +40,7 @@ pub struct ProjectileBundle {
     pub speed: Speed,
     pub range: Range,
     pub damage: Damage,
+    pub velocity: Velocity,
     pub projectile: Projectile,
     #[bundle]
     pub sprite: SpriteBundle,
@@ -52,6 +53,7 @@ impl Default for ProjectileBundle {
             damage: Damage { kinetic: 10 },
             range: Range(50.),
             projectile: Projectile {},
+            velocity: Velocity(Vec2::ONE),
             sprite: SpriteBundle {
                 ..Default::default()
             },
