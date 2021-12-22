@@ -1,6 +1,6 @@
-use bevy::{diagnostic::FrameTimeDiagnosticsPlugin, log::LogPlugin, prelude::*};
-use bevy_remote_devtools_plugin::RemoteDevToolsPlugin;
+use bevy::prelude::*;
 use camera::CameraPlugin;
+use constants::WORLD_STAGE;
 use map::MapPlugin;
 use movement::MovementPlugin;
 use resource::ResourcePlugin;
@@ -11,6 +11,7 @@ mod components;
 mod constants;
 mod map;
 mod movement;
+mod player;
 mod resource;
 mod spawner;
 
@@ -28,12 +29,6 @@ fn main() {
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
-        .add_plugin(RemoteDevToolsPlugin::new("Galatic debug", 3030))
-        // Optional: If you want to see fps and frame time in the tools.
-        .add_plugin(FrameTimeDiagnosticsPlugin::default())
-        // RemoteDevToolsPlugin will replace bevys LogPlugin with a similar implementation.
-        // LogSettings Resource can be still used to configure what logs are shown.
-        .add_plugins_with(DefaultPlugins, |group| group.disable::<LogPlugin>())
         .add_plugin(ResourcePlugin)
         .add_plugin(MapPlugin)
         .add_plugin(CameraPlugin)

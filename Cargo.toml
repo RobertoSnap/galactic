@@ -8,7 +8,3 @@ edition = "2021"
 [dependencies]
 rand = "0.8"
 bevy = {git = "https://github.com/bevyengine/bevy.git"}
-bevy-remote-devtools-plugin = { git = "https://github.com/reneeichhorn/bevy-remote-devtools.git" }
-
-[patch.crates-io]
-hyper = { git = "https://github.com/reneeichhorn/hyper.git" }

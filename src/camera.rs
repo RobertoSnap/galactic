@@ -4,7 +4,7 @@ use bevy::prelude::*;
 
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system(setup)
+        app.add_startup_system_to_stage(StartupStage::PostStartup, setup)
             .add_system(camera_follows_player);
     }
 }
