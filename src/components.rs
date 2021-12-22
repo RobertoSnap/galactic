@@ -1,7 +1,5 @@
 use bevy::prelude::*;
 
-use crate::constants::{Constants, LAYERS, LAYER_PLAYER};
-
 #[derive(Component)]
 pub struct Velocity(Vec2);
 
@@ -36,3 +34,41 @@ impl Spaceship {
         }
     }
 }
+
+#[derive(Bundle)]
+pub struct ProjectileBundle {
+    pub speed: Speed,
+    pub range: Range,
+    pub damage: Damage,
+    pub projectile: Projectile,
+    #[bundle]
+    pub sprite: SpriteBundle,
+}
+
+impl Default for ProjectileBundle {
+    fn default() -> Self {
+        Self {
+            speed: Speed(300.),
+            damage: Damage { kinetic: 10 },
+            range: Range(50.),
+            projectile: Projectile {},
+            sprite: SpriteBundle {
+                ..Default::default()
+            },
+        }
+    }
+}
+
+#[derive(Component)]
+pub struct Projectile;
+
+#[derive(Component)]
+pub struct Damage {
+    pub kinetic: i32,
+}
+
+#[derive(Component)]
+pub struct Speed(pub f32);
+
+#[derive(Component)]
+pub struct Range(pub f32);

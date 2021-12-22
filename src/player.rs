@@ -1,4 +1,4 @@
-use bevy::{core::FixedTimestep, prelude::*};
+use bevy::prelude::*;
 
 use crate::{components::Spaceship, constants::PLAYER_SHIP1_BLUE, resource::Player};
 

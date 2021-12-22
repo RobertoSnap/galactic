@@ -1,7 +1,13 @@
 use bevy::math::Vec3;
 
+// spaceships
 pub const PLAYER_SHIP1_BLUE: &str = "playerShip1_blue.png";
+
+// map
 pub const SPACE_BG_3: &str = "Space/space_bg_3.png";
+
+// weapons
+pub const LASER_BLUE01: &str = "Lasers/laserBlue01.png";
 
 pub const LAYER_PLAYER: f32 = 2.;
 pub const LAYER_MAP: f32 = 1.;

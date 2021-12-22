@@ -1,19 +1,20 @@
 use bevy::prelude::*;
 use camera::CameraPlugin;
 use constants::WORLD_STAGE;
+use input::InputPlugin;
 use map::MapPlugin;
 use movement::MovementPlugin;
+use player::PlayerPlugin;
 use resource::ResourcePlugin;
-use spawner::SpawnerPlugin;
 
 mod camera;
 mod components;
 mod constants;
+mod input;
 mod map;
 mod movement;
 mod player;
 mod resource;
-mod spawner;
 
 const TIME_STEP: f32 = 1. / 60.;
 
@@ -32,8 +33,9 @@ fn main() {
         .add_plugin(ResourcePlugin)
         .add_plugin(MapPlugin)
         .add_plugin(CameraPlugin)
-        .add_plugin(SpawnerPlugin)
         .add_plugin(MovementPlugin)
+        .add_plugin(InputPlugin)
+        .add_plugin(PlayerPlugin)
         .add_system(bevy::input::system::exit_on_esc_system)
         .run();
 }
