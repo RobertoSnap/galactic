@@ -51,8 +51,8 @@ impl Default for ProjectileBundle {
         Self {
             speed: Speed(300.),
             damage: Damage { kinetic: 10 },
-            range: Range(50.),
-            projectile: Projectile {},
+            range: Range(500.),
+            projectile: Projectile::default(),
             velocity: Velocity(Vec2::ONE),
             sprite: SpriteBundle {
                 ..Default::default()
@@ -62,7 +62,15 @@ impl Default for ProjectileBundle {
 }
 
 #[derive(Component)]
-pub struct Projectile;
+pub struct Projectile {
+    pub traveled: f32,
+}
+
+impl Default for Projectile {
+    fn default() -> Self {
+        Self { traveled: 0.0 }
+    }
+}
 
 #[derive(Component)]
 pub struct Damage {
@@ -74,3 +82,8 @@ pub struct Speed(pub f32);
 
 #[derive(Component)]
 pub struct Range(pub f32);
+impl Default for Range {
+    fn default() -> Self {
+        Self(500.)
+    }
+}
