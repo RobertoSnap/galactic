@@ -31,7 +31,7 @@ fn move_projectile(
         let movement_direction = transform.rotation * Vec3::Y;
         let movement_distance = speed.0 * TIME_STEP;
         projectile.traveled += movement_distance;
-        if (projectile.traveled >= range.0) {
+        if projectile.traveled >= range.0 {
             commands.entity(entity).despawn();
         }
         let translation_delta = (movement_direction * movement_distance).xy(); // do

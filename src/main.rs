@@ -1,6 +1,10 @@
-use bevy::prelude::*;
+use bevy::{
+    diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
+    prelude::*,
+};
 use camera::CameraPlugin;
 
+use event::EventPlugin;
 use input::InputPlugin;
 use map::MapPlugin;
 use movement::MovementPlugin;
@@ -11,6 +15,7 @@ use resource::ResourcePlugin;
 mod camera;
 mod components;
 mod constants;
+mod event;
 mod input;
 mod map;
 mod movement;
@@ -31,7 +36,10 @@ fn main() {
             width: 500.,
             ..Default::default()
         })
+        .add_plugin(EventPlugin)
         .add_plugins(DefaultPlugins)
+        .add_plugin(LogDiagnosticsPlugin::default())
+        .add_plugin(FrameTimeDiagnosticsPlugin::default())
         .add_plugin(ResourcePlugin)
         .add_plugin(MapPlugin)
         .add_plugin(CameraPlugin)

@@ -16,22 +16,6 @@ impl Galaxy {
     }
 }
 
-pub struct Player {
-    pub default_spawn: Vec3,
-    pub spaceship: Option<Entity>,
-    pub entity: Option<Entity>,
-}
-
-impl Player {
-    pub fn default() -> Self {
-        Self {
-            default_spawn: Vec3::new(80., 80., Constants::get_layer_for(LAYERS::PLAYER)),
-            spaceship: None,
-            entity: None,
-        }
-    }
-}
-
 pub struct ResourcePlugin;
 
 impl Plugin for ResourcePlugin {
@@ -40,6 +24,5 @@ impl Plugin for ResourcePlugin {
     }
 }
 pub fn setup(mut commands: Commands) {
-    commands.insert_resource(Player::default());
     commands.insert_resource(Galaxy::default());
 }

@@ -1,4 +1,4 @@
-
+use bevy::math::Vec3;
 
 // spaceships
 pub const PLAYER_SHIP1_BLUE: &str = "playerShip1_blue.png";
@@ -20,10 +20,11 @@ pub enum LAYERS {
 pub static WORLD_STAGE: &str = "world";
 pub struct Constants {}
 impl Constants {
-    pub fn get_layer_for(layer: LAYERS) -> f32 {
-        match layer {
-            LAYERS::PLAYER => 100.,
-            LAYERS::MAP => 10.,
+    pub fn layer_for(entity: &'static str) -> f32 {
+        match entity {
+            "player" => 100.,
+            "map" => 10.,
+            _ => panic!("entity {} not handled", entity),
         }
     }
 }

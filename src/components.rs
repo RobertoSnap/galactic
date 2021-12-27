@@ -1,11 +1,37 @@
 use bevy::prelude::*;
 
+use crate::constants::Constants;
+
+#[derive(Component, Debug)]
+pub struct Player {
+    pub spawn: Vec3,
+    pub name: Name,
+    pub spaceship: Option<Entity>,
+    pub money: Option<Entity>,
+}
+
+// #[derive(Bundle)]
+// pub struct PlayerBundle {
+//     pub spaceship: Spaceship,
+
+// }
+
+impl Default for Player {
+    fn default() -> Self {
+        Self {
+            spawn: Vec3::new(80., 80., Constants::layer_for("player")),
+            name: Name::new("Random"),
+            spaceship: None,
+            money: None,
+        }
+    }
+}
+
 #[derive(Component, Debug)]
 pub struct Velocity(pub Vec2);
-
-impl Velocity {
-    pub fn default() -> Self {
-        return Self(Vec2::ONE);
+impl Default for Velocity {
+    fn default() -> Self {
+        Self(Vec2::ZERO)
     }
 }
 
@@ -14,23 +40,34 @@ pub struct MainCamera;
 
 #[derive(Component)]
 pub struct Spaceship {
-    pub velocity: Vec2,
-    pub movement_speed: f32,
-    pub movement_speed_max: f32,
-    pub rotation_speed: f32,
-    pub rotation_speed_max: f32,
-    pub break_power: f32,
+    pub name: Name,
 }
 
-impl Spaceship {
-    pub fn default() -> Self {
+impl Default for Spaceship {
+    fn default() -> Self {
         Self {
-            velocity: Vec2::new(0., 0.),
-            movement_speed: 3.,
-            movement_speed_max: 300.,
-            rotation_speed: f32::to_radians(90.0), // degrees per second
-            rotation_speed_max: f32::to_radians(120.0), // degrees per second
-            break_power: 300.,
+            name: Name::new("Fighter ship 1"),
+        }
+    }
+}
+
+#[derive(Bundle)]
+pub struct SpaceshipBundle {
+    pub spaceship: Spaceship,
+    pub speed: Speed,
+    pub rotation_speed: RotationSpeed,
+    pub acceleration: Acceleration,
+    pub deceleration: Deceleration,
+    pub velocity: Velocity,
+    pub player_controlled: PlayerControlled,
+    #[bundle]
+    pub sprite: SpriteBundle,
+}
+
+impl Default for SpaceshipBundle {
+    fn default() -> Self {
+        Self {
+            ..Default::default()
         }
     }
 }
@@ -62,6 +99,14 @@ impl Default for ProjectileBundle {
 }
 
 #[derive(Component)]
+pub struct PlayerControlled {}
+impl Default for PlayerControlled {
+    fn default() -> Self {
+        Self {}
+    }
+}
+
+#[derive(Component)]
 pub struct Projectile {
     pub traveled: f32,
 }
@@ -79,11 +124,47 @@ pub struct Damage {
 
 #[derive(Component)]
 pub struct Speed(pub f32);
+impl Default for Speed {
+    fn default() -> Self {
+        Self(10.)
+    }
+}
 
+#[derive(Component)]
+pub struct RotationSpeed(pub f32);
+impl Default for RotationSpeed {
+    fn default() -> Self {
+        Self(f32::to_radians(90.0))
+    }
+}
+
+#[derive(Component)]
+pub struct Acceleration(pub f32);
+impl Default for Acceleration {
+    fn default() -> Self {
+        Self(1.)
+    }
+}
+#[derive(Component)]
+pub struct Deceleration(pub f32);
+impl Default for Deceleration {
+    fn default() -> Self {
+        Self(300.)
+    }
+}
 #[derive(Component)]
 pub struct Range(pub f32);
 impl Default for Range {
     fn default() -> Self {
         Self(500.)
+    }
+}
+
+#[derive(Component, Debug)]
+pub struct Money(pub u64);
+
+impl Default for Money {
+    fn default() -> Self {
+        Self(0)
     }
 }
