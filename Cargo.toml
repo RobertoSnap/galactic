@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8"
-bevy = {git = "https://github.com/bevyengine/bevy.git"}
+bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "959a845704426d2f967c3898239e552b9d6bf9c9"}
 
 [profile.dev.package."*"]
 opt-level = 3

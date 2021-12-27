@@ -1,3 +1,5 @@
+use std::env;
+
 use bevy::{
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
@@ -26,6 +28,13 @@ mod resource;
 const TIME_STEP: f32 = 1. / 60.;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    println!("{:?}", args);
+    let isServer = args.iter().find(|arg| **arg == "server").is_some();
+
+    if isServer {
+        println!("is server");
+    }
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
         .insert_resource(WindowDescriptor {
