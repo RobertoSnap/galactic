@@ -168,3 +168,9 @@ impl Default for Money {
         Self(0)
     }
 }
+
+// Map
+#[derive(Component)]
+pub struct MapTile {
+    pub index: i32,
+}

@@ -17,7 +17,7 @@ pub struct EntityRotate {
 
 pub struct EntityAccelerate {
     pub entity: Entity,
-    pub acceleation: f32,
+    pub acceleration: f32,
 }
 
 pub struct EntityDecelerate {
