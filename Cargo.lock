@@ -1371,12 +1371,8 @@ name = "galactic"
 version = "0.1.0"
 dependencies = [
  "bevy",
- "bincode",
- "log",
  "rand",
- "renet",
  "renet_udp",
- "serde",
 ]
 
 [[package]]
