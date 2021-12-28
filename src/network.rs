@@ -76,8 +76,10 @@ fn server_events(mut server: ResMut<UdpServer>) {
         }
     }
 
-    for text in received_messages.iter() {
-        server.broadcast_message(0, text.as_bytes().to_vec());
+    for mut text in received_messages.iter() {
+        let mut new_string = text.clone();
+        new_string.push_str(" Pong");
+        server.broadcast_message(0, new_string.as_bytes().to_vec());
     }
 
     server.send_packets().unwrap();
@@ -86,9 +88,7 @@ fn server_events(mut server: ResMut<UdpServer>) {
 fn some_client(mut client: ResMut<UdpClient>) {
     let last_updated = Instant::now();
     client.update(Instant::now() - last_updated).unwrap();
-    client
-        .send_message(0, "Hei Robin".as_bytes().to_vec())
-        .unwrap();
+    client.send_message(0, "Ping".as_bytes().to_vec()).unwrap();
 
     while let Some(text) = client.receive_message(0) {
         let text = String::from_utf8(text).unwrap();
