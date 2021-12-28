@@ -1,18 +1,10 @@
 use bevy::prelude::*;
 
 use crate::{
+    components::MapTile,
     constants::{LAYER_MAP, SPACE_BG_3},
     resource::Galaxy,
 };
-
-pub struct Map {
-    x: i32,
-    y: i32,
-}
-#[derive(Component)]
-pub struct MapTile {
-    index: i32,
-}
 
 pub struct MapPlugin;
 
@@ -21,12 +13,12 @@ impl Plugin for MapPlugin {
         app.add_startup_system_to_stage(StartupStage::PostStartup, render);
     }
 }
-fn render(mut commands: Commands, asset_server: Res<AssetServer>, mut galaxy: ResMut<Galaxy>) {
+fn render(mut commands: Commands, asset_server: Res<AssetServer>, galaxy: Res<Galaxy>) {
     let mut index = 0;
     for x in 0..=galaxy.size.x {
         for y in 0..=galaxy.size.y {
             index += 1;
-            let tile = commands
+            commands
                 .spawn_bundle(SpriteBundle {
                     transform: Transform {
                         translation: Vec3::new(64. * x as f32, 64. * y as f32, LAYER_MAP),
@@ -36,9 +28,8 @@ fn render(mut commands: Commands, asset_server: Res<AssetServer>, mut galaxy: Re
                     texture: asset_server.load(SPACE_BG_3),
                     ..Default::default()
                 })
-                .insert(MapTile { index })
+                .insert(MapTile { index: index })
                 .id();
-            galaxy.map_tiles = Some(vec![tile])
         }
     }
 }
