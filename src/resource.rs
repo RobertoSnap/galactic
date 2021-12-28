@@ -1,7 +1,5 @@
 use bevy::prelude::*;
 
-use crate::constants::{Constants, LAYERS};
-
 pub struct Galaxy {
     pub map_tiles: Option<Vec<Entity>>,
     pub size: IVec2,
