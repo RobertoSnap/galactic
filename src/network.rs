@@ -3,9 +3,6 @@ use renet_udp::{
     renet::remote_connection::ConnectionConfig,
     server::{ServerEvent, UdpServer},
 };
-use std::sync::mpsc::{self, Receiver, TryRecvError};
-use std::thread;
-use std::time::Duration;
 use std::{
     env,
     net::{SocketAddr, UdpSocket},
@@ -27,39 +24,39 @@ impl Plugin for NetworkPlugin {
                     .with_run_criteria(FixedTimestep::step(30. / 60.))
                     .with_system(server_events),
             );
-        } else{
-            app.add_startup_system(init).add_system_set(
+        } else {
+            app.add_startup_system(init_client).add_system_set(
                 SystemSet::new()
                     // This prints out "hello world" once every second
                     .with_run_criteria(FixedTimestep::step(30. / 60.))
-                    .with_system(events),
+                    .with_system(some_client),
             );
         }
-       
     }
 }
 
 fn init_server(mut commands: Commands) {
     println!("Running server");
-        let server_addr: SocketAddr = format!("127.0.0.1:{}", 5050).parse().unwrap();
-        commands.insert_resource(server(server_addr));
+    let server_addr: SocketAddr = format!("127.0.0.1:{}", 5050).parse().unwrap();
+    let socket = UdpSocket::bind(server_addr).unwrap();
+    let connection_config = ConnectionConfig::default();
+    let server: UdpServer = UdpServer::new(64, connection_config, socket).unwrap();
+    commands.insert_resource(server);
 }
 
 fn init_client(mut commands: Commands) {
-
-
-    if is_server {
-        println!("Running server");
-        let server_addr: SocketAddr = format!("127.0.0.1:{}", 5050).parse().unwrap();
-        commands.insert_resource(server(server_addr));
-    } else {
-      
-    }
+    println!("Running server");
+    let server_addr: SocketAddr = format!("127.0.0.1:{}", 5050).parse().unwrap();
+    let socket = UdpSocket::bind("127.0.0.1:0").unwrap();
+    let connection_config = ConnectionConfig::default();
+    let client = UdpClient::new(socket, server_addr, connection_config).unwrap();
+    commands.insert_resource(client);
 }
 
-fn server_events(mut commands: Commands, server) {
+fn server_events(mut server: ResMut<UdpServer>) {
+    let last_updated = Instant::now();
+    let mut received_messages = vec![];
     server.update(Instant::now() - last_updated).unwrap();
-    last_updated = Instant::now();
     received_messages.clear();
 
     while let Some(event) = server.get_event() {
@@ -85,46 +82,18 @@ fn server_events(mut commands: Commands, server) {
 
     server.send_packets().unwrap();
 }
-fn server(addr: SocketAddr) {
-    let socket = UdpSocket::bind(addr).unwrap();
-    let connection_config = ConnectionConfig::default();
-    let mut server: UdpServer = UdpServer::new(64, connection_config, socket).unwrap();
-    let mut received_messages = vec![];
-    let mut last_updated = Instant::now();
-}
 
-fn client(server_addr: SocketAddr) {
-    let socket = UdpSocket::bind("127.0.0.1:0").unwrap();
-    let connection_config = ConnectionConfig::default();
-    let mut client = UdpClient::new(socket, server_addr, connection_config).unwrap();
-    let stdin_channel = spawn_stdin_channel();
+fn some_client(mut client: ResMut<UdpClient>) {
+    let last_updated = Instant::now();
+    client.update(Instant::now() - last_updated).unwrap();
+    client
+        .send_message(0, "Hei Robin".as_bytes().to_vec())
+        .unwrap();
 
-    let mut last_updated = Instant::now();
-    loop {
-        client.update(Instant::now() - last_updated).unwrap();
-        last_updated = Instant::now();
-        match stdin_channel.try_recv() {
-            Ok(text) => client.send_message(0, text.as_bytes().to_vec()).unwrap(),
-            Err(TryRecvError::Empty) => {}
-            Err(TryRecvError::Disconnected) => panic!("Channel disconnected"),
-        }
-
-        while let Some(text) = client.receive_message(0) {
-            let text = String::from_utf8(text).unwrap();
-            println!("Message from server: {}", text);
-        }
-
-        client.send_packets().unwrap();
-        thread::sleep(Duration::from_millis(100));
+    while let Some(text) = client.receive_message(0) {
+        let text = String::from_utf8(text).unwrap();
+        println!("Message from server: {}", text);
     }
-}
 
-fn spawn_stdin_channel() -> Receiver<String> {
-    let (tx, rx) = mpsc::channel::<String>();
-    thread::spawn(move || loop {
-        let mut buffer = String::new();
-        std::io::stdin().read_line(&mut buffer).unwrap();
-        tx.send(buffer).unwrap();
-    });
-    rx
+    client.send_packets().unwrap();
 }
