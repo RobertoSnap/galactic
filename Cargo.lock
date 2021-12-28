@@ -697,6 +697,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "bincode"
+version = "1.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1f45e9417d87227c7a56d22e471c6206462cba514c7590c09aff4cf6d1ddcad"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "bindgen"
 version = "0.56.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1362,7 +1371,12 @@ name = "galactic"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bincode",
+ "log",
  "rand",
+ "renet",
+ "renet_udp",
+ "serde",
 ]
 
 [[package]]
@@ -2483,6 +2497,25 @@ name = "renderdoc-sys"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f1382d1f0a252c4bf97dc20d979a2fdd05b024acd7c2ed0f7595d7817666a157"
+
+[[package]]
+name = "renet"
+version = "0.0.3"
+source = "git+https://github.com/lucaspoffo/renet#3fb82cb82caed7f20d741826506f362966d48baf"
+dependencies = [
+ "bincode",
+ "log",
+ "serde",
+]
+
+[[package]]
+name = "renet_udp"
+version = "0.0.1"
+source = "git+https://github.com/lucaspoffo/renet#3fb82cb82caed7f20d741826506f362966d48baf"
+dependencies = [
+ "log",
+ "renet",
+]
 
 [[package]]
 name = "rodio"
