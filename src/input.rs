@@ -31,7 +31,7 @@ fn spaceship(
         if up {
             entity_accelerate.send(EntityAccelerate {
                 entity: entity,
-                acceleation: 1.,
+                acceleration: 1.,
             });
         }
         if down {

@@ -51,7 +51,7 @@ fn accelerate_spaceship(
             .filter(|query| query.0 == event.entity)
             .for_each(|(_, transform, mut velocity, acceleration)| {
                 let movement_direction = transform.rotation * Vec3::Y;
-                let movement_distance = event.acceleation * acceleration.0 * TIME_STEP;
+                let movement_distance = event.acceleration * acceleration.0 * TIME_STEP;
                 let translation_delta = (movement_direction * movement_distance).xy(); // dont need z
                 velocity.0 += translation_delta;
             });
