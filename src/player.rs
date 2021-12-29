@@ -3,24 +3,32 @@ use bevy::prelude::*;
 use crate::{
     components::{Money, Player, Spaceship, SpaceshipBundle},
     constants::{Constants, PLAYER_SHIP1_BLUE},
+    event::SpawnPlayer,
+    network::run_if_client,
 };
 
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system_to_stage(StartupStage::PostStartup, spawn)
-            .add_system(spawn_spaceship);
+        app.add_system_set(
+            SystemSet::new()
+                .with_run_criteria(run_if_client.system())
+                .with_system(spawn_player),
+        )
+        .add_system(spawn_spaceship);
     }
 }
 
-pub fn spawn(mut commands: Commands, asset_server: Res<AssetServer>) {
-    commands.spawn().insert(Player {
-        money: None,
-        name: Name::new("Player A"),
-        spaceship: None,
-        spawn: Default::default(),
-    });
+pub fn spawn_player(mut commands: Commands, mut events: EventReader<SpawnPlayer>) {
+    for event in events.iter() {
+        commands.spawn().insert(Player {
+            money: None,
+            name: Name::new(event.name.clone()),
+            spaceship: None,
+            spawn: Default::default(),
+        });
+    }
 }
 pub fn spawn_spaceship(
     mut commands: Commands,

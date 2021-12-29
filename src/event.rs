@@ -7,7 +7,12 @@ impl Plugin for EventPlugin {
         app.add_event::<EntityRotate>();
         app.add_event::<EntityAccelerate>();
         app.add_event::<EntityDecelerate>();
+        app.add_event::<SpawnPlayer>();
     }
+}
+
+pub struct SpawnPlayer {
+    pub name: String,
 }
 
 pub struct EntityRotate {
