@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    components::{Money, Player, Spaceship, SpaceshipBundle},
+    components::prelude::*,
     constants::{Constants, PLAYER_SHIP1_BLUE},
     event::SpawnPlayer,
     network::run_if_client,

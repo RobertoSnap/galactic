@@ -1,6 +1,6 @@
 pub struct CameraPlugin;
-use crate::components::{MainCamera, Spaceship, Velocity};
 use bevy::prelude::*;
+use galactic_core::components::prelude::*;
 
 impl Plugin for CameraPlugin {
     fn build(&self, app: &mut App) {

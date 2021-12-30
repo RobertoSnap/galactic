@@ -1367,7 +1367,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "galactic-client"
+name = "galactic_client"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "galactic_core",
+ "rand",
+ "renet_udp",
+]
+
+[[package]]
+name = "galactic_core"
 version = "0.1.0"
 dependencies = [
  "bevy",
@@ -1376,7 +1386,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "galactic-server"
+name = "galactic_server"
 version = "0.1.0"
 dependencies = [
  "bevy",

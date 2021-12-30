@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    components::{PlayerControlled, ProjectileBundle, Spaceship},
+    components::prelude::*,
     constants::LASER_BLUE01,
     event::{EntityAccelerate, EntityDecelerate, EntityRotate},
 };

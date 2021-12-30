@@ -1,5 +1,5 @@
 [package]
-name = "galactic-client"
+name = "galactic_client"
 version = "0.1.0"
 edition = "2021"
 
@@ -12,6 +12,8 @@ renet_udp = {git = "https://github.com/lucaspoffo/renet", commit = "350f82bbeae5
 # serde = { version = "1.0.117", features = [ "derive" ] } 
 # bincode = "1.3.1"
 # log = { version = "0.4.11", features = [ "std" ] }
+
+galactic_core = {path = "../core"}
 
 [profile.dev.package."*"]
 opt-level = 3

@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    components::MapTile,
+    components::prelude::*,
     constants::{LAYER_MAP, SPACE_BG_3},
     resource::Galaxy,
 };

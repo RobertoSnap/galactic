@@ -1,9 +1,8 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 
 use crate::{
-    components::{Acceleration, Deceleration, RotationSpeed, Spaceship, Velocity},
+    components::prelude::*,
     event::{EntityAccelerate, EntityDecelerate, EntityRotate},
-    TIME_STEP,
 };
 
 pub struct MovementPlugin;
@@ -18,13 +17,15 @@ impl Plugin for MovementPlugin {
 }
 
 fn rotate_spaceship(
+    time: Res<Time>,
     mut events: EventReader<EntityRotate>,
     mut query: Query<(Entity, &mut Transform, &RotationSpeed), With<Spaceship>>,
 ) {
     events.iter().for_each(|event| {
         let (_, mut transform, rotation_speed) =
             query.get_mut(event.entity).expect("entity from event.");
-        let rotation_delta = Quat::from_rotation_z(event.rotation * rotation_speed.0 * TIME_STEP);
+        let rotation_delta =
+            Quat::from_rotation_z(event.rotation * rotation_speed.0 * time.delta_seconds());
         transform.rotation *= rotation_delta;
     });
 }
@@ -38,6 +39,7 @@ fn move_spaceship(mut query: Query<(&mut Transform, &Velocity), With<Spaceship>>
 }
 
 fn accelerate_spaceship(
+    time: Res<Time>,
     mut events: EventReader<EntityAccelerate>,
     mut query: Query<(Entity, &Transform, &mut Velocity, &Acceleration), With<Spaceship>>,
 ) {
@@ -45,13 +47,14 @@ fn accelerate_spaceship(
         let (_, transform, mut velocity, acceleration) =
             query.get_mut(event.entity).expect("entity in event");
         let movement_direction = transform.rotation * Vec3::Y;
-        let movement_distance = event.acceleration * acceleration.0 * TIME_STEP;
+        let movement_distance = event.acceleration * acceleration.0 * time.delta_seconds();
         let translation_delta = (movement_direction * movement_distance).xy(); // dont need z
         velocity.0 += translation_delta;
     });
 }
 
 fn decelerate_spaceship(
+    time: Res<Time>,
     mut events: EventReader<EntityDecelerate>,
     mut query: Query<(Entity, &Transform, &mut Velocity, &Deceleration), With<Spaceship>>,
 ) {
@@ -62,7 +65,7 @@ fn decelerate_spaceship(
         if velocity.0.length() < 0.5 {
             velocity.0 = Vec2::ZERO;
         } else {
-            let break_power = event.deceleration * deceleration.0 * TIME_STEP;
+            let break_power = event.deceleration * deceleration.0 * time.delta_seconds();
             let break_power_as_percentage = 1. - (break_power / 300.);
             velocity.0 *= break_power_as_percentage;
         }

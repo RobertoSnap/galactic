@@ -1,9 +1,6 @@
 use bevy::{math::Vec3Swizzles, prelude::*};
 
-use crate::{
-    components::{Projectile, Range, Speed, Velocity},
-    TIME_STEP,
-};
+use crate::components::prelude::*;
 
 pub struct ProjectilePlugin;
 
@@ -14,6 +11,7 @@ impl Plugin for ProjectilePlugin {
 }
 
 fn move_projectile(
+    time: Res<Time>,
     mut commands: Commands,
     mut query: Query<
         (
@@ -29,7 +27,7 @@ fn move_projectile(
 ) {
     for (entity, mut transform, velocity, speed, mut projectile, range) in query.iter_mut() {
         let movement_direction = transform.rotation * Vec3::Y;
-        let movement_distance = speed.0 * TIME_STEP;
+        let movement_distance = speed.0 * time.delta_seconds();
         projectile.traveled += movement_distance;
         if projectile.traveled >= range.0 {
             commands.entity(entity).despawn();
