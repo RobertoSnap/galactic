@@ -11,3 +11,6 @@ renet_udp = {git = "https://github.com/lucaspoffo/renet", commit = "350f82bbeae5
 
 [profile.dev.package."*"]
 opt-level = 3
+
+[patch."https://github.com/bevyengine/bevy"]
+bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
