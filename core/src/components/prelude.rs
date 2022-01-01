@@ -27,7 +27,7 @@ impl Default for Player {
     }
 }
 
-#[derive(Component, Debug)]
+#[derive(Component, Debug, Clone, Copy)]
 pub struct Velocity(pub Vec2);
 impl Default for Velocity {
     fn default() -> Self {
@@ -67,7 +67,14 @@ pub struct SpaceshipBundle {
 impl Default for SpaceshipBundle {
     fn default() -> Self {
         Self {
-            ..Default::default()
+            spaceship: Default::default(),
+            speed: Default::default(),
+            rotation_speed: Default::default(),
+            acceleration: Default::default(),
+            deceleration: Default::default(),
+            velocity: Default::default(),
+            player_controlled: Default::default(),
+            sprite: Default::default(),
         }
     }
 }
