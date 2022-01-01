@@ -7,6 +7,16 @@ use galactic_core::*;
 
 mod camera;
 
+pub enum GameStage {
+    MENU,
+    PLAYING,
+}
+
+impl Default for GameStage {
+    fn default() -> Self {
+        Self::MENU
+    }
+}
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
