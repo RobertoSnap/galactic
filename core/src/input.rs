@@ -59,12 +59,12 @@ pub fn fire(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
     mouse: Res<Input<MouseButton>>,
-    query: Query<&Transform, With<Spaceship>>,
+    query: Query<(&Transform, &Velocity), With<Spaceship>>,
 ) {
     let fire = mouse.just_pressed(MouseButton::Left);
     if fire {
         println!("fire");
-        let spaceship_transform = query.single();
+        let (spaceship_transform, spaceship_velocity) = query.single();
         let _id = commands
             .spawn_bundle(ProjectileBundle {
                 sprite: SpriteBundle {
@@ -72,6 +72,7 @@ pub fn fire(
                     texture: asset_server.load(LASER_BLUE01),
                     ..Default::default()
                 },
+                velocity: *spaceship_velocity,
                 ..Default::default()
             })
             .id();

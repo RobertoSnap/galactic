@@ -27,12 +27,13 @@ fn move_projectile(
 ) {
     for (entity, mut transform, velocity, speed, mut projectile, range) in query.iter_mut() {
         let movement_direction = transform.rotation * Vec3::Y;
+        print!(" {} {} ", velocity.0.length(), speed.0);
         let movement_distance = speed.0 * time.delta_seconds();
         projectile.traveled += movement_distance;
         if projectile.traveled >= range.0 {
             commands.entity(entity).despawn();
         }
-        let translation_delta = (movement_direction * movement_distance).xy(); // do
+        let translation_delta = (movement_direction * movement_distance).xy() + velocity.0; // do
         transform.translation.x += translation_delta.x;
         transform.translation.y += translation_delta.y;
     }
