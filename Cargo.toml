@@ -5,3 +5,5 @@ members = [
     "client",
 ]
 resolver = "2"
+
+default-members = ["client"]
