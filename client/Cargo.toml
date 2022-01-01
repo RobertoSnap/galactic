@@ -5,8 +5,7 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8"
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "959a845704426d2f967c3898239e552b9d6bf9c9"}
-# renet = {git = "https://github.com/lucaspoffo/renet", commit = "3fb82cb82caed7f20d741826506f362966d48baf"}
+bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
 renet_udp = {git = "https://github.com/lucaspoffo/renet", commit = "350f82bbeae51cd07edafe82eea47deb453c14bf"}
 
 # serde = { version = "1.0.117", features = [ "derive" ] } 
