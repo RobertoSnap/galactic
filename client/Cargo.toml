@@ -5,21 +5,10 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8"
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
+bevy = "0.5.0"
 renet_udp = {git = "https://github.com/lucaspoffo/renet", commit = "350f82bbeae51cd07edafe82eea47deb453c14bf"}
-
 
 galactic_core = {path = "../core"}
 
-kayak_ui = { git="https://github.com/StarArawn/kayak_ui", rev="4bf5e80867cc98cdc01f29b9efb85e7d10ed4bff" }
-
 [profile.dev.package."*"]
 opt-level = 3
-
-[patch.crates-io]
-# override it with bevy from git
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
-
-
-[patch."https://github.com/bevyengine/bevy"]
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
