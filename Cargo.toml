@@ -8,5 +8,5 @@ resolver = "2"
 
 default-members = ["client"]
 
-[patch."https://github.com/bevyengine/bevy"]
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
+# [patch."https://github.com/bevyengine/bevy"]
+# bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}

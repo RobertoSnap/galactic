@@ -27,7 +27,6 @@ fn move_projectile(
 ) {
     for (entity, mut transform, velocity, speed, mut projectile, range) in query.iter_mut() {
         let movement_direction = transform.rotation * Vec3::Y;
-        print!(" {} {} ", velocity.0.length(), speed.0);
         let movement_distance = speed.0 * time.delta_seconds();
         projectile.traveled += movement_distance;
         if projectile.traveled >= range.0 {

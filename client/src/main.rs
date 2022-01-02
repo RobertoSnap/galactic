@@ -5,6 +5,11 @@ use bevy::{
 
 use galactic_core::*;
 
+use kayak_ui::bevy::{BevyContext, BevyKayakUIPlugin, FontMapping, UICameraBundle};
+use kayak_ui::core::Index;
+use kayak_ui::core::{render, rsx, widget};
+use kayak_ui::widgets::{App as UiApp, Window};
+
 mod camera;
 
 pub enum GameStage {
@@ -17,6 +22,41 @@ impl Default for GameStage {
         Self::MENU
     }
 }
+
+#[widget]
+fn CustomWidget() {
+    rsx! {
+        <>
+            <Window position={(50.0, 50.0)} size={(300.0, 300.0)} title={"Window 1".to_string()}>
+                {}
+            </Window>
+            <Window position={(550.0, 50.0)} size={(200.0, 200.0)} title={"Window 2".to_string()}>
+                {}
+            </Window>
+        </>
+    }
+}
+
+fn startup(
+    mut commands: Commands,
+    mut font_mapping: ResMut<FontMapping>,
+    asset_server: Res<AssetServer>,
+) {
+    commands.spawn_bundle(UICameraBundle::new());
+
+    font_mapping.add(asset_server.load("roboto.kayak_font"));
+
+    let context = BevyContext::new(|context| {
+        render! {
+            <UiApp>
+                <CustomWidget />
+            </UiApp>
+        }
+    });
+
+    commands.insert_resource(context);
+}
+
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
@@ -42,5 +82,7 @@ fn main() {
         .add_plugin(player::PlayerPlugin)
         .add_system(bevy::input::system::exit_on_esc_system)
         .add_plugin(camera::CameraPlugin)
+        .add_plugin(BevyKayakUIPlugin)
+        .add_startup_system(startup)
         .run();
 }
