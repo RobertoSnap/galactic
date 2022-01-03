@@ -7,8 +7,11 @@ edition = "2021"
 rand = "0.8"
 bevy = "0.5.0"
 renet_udp = {git = "https://github.com/lucaspoffo/renet", commit = "350f82bbeae51cd07edafe82eea47deb453c14bf"}
+kayak_ui = { git="https://github.com/StarArawn/kayak_ui", rev="e25baa9d0ae0cbb63c07e1f3153af2da5c69b8f4" }
 
 galactic_core = {path = "../core"}
 
 [profile.dev.package."*"]
 opt-level = 3
+
+

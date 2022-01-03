@@ -10,8 +10,8 @@ default-members = ["client"]
 
 [patch.crates-io]
 # override it with bevy from git
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "a6d3cd92fe2be55032c2e63a1ed983543d28143b"}
+bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
 
 
 [patch."https://github.com/bevyengine//bevy"]
-bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "a6d3cd92fe2be55032c2e63a1ed983543d28143b"}
+bevy = {git = "https://github.com/bevyengine/bevy.git", commit = "1d0d8a3397bd6fc2c14d42ffd0668d2443748912"}
