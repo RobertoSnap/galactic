@@ -4,14 +4,19 @@ use crate::{
     components::prelude::*,
     constants::LASER_BLUE01,
     event::{EntityAccelerate, EntityDecelerate, EntityRotate},
+    game_state::GameState,
 };
 
 pub struct InputPlugin;
 
 impl Plugin for InputPlugin {
     fn build(&self, app: &mut App) {
-        app.add_system(fire.label("input"))
-            .add_system(spaceship.label("input"));
+        app // systems to run only in the main menu
+            .add_system_set(
+                SystemSet::on_update(GameState::Play)
+                    .with_system(fire.label("input"))
+                    .with_system(spaceship.label("input")),
+            );
     }
 }
 

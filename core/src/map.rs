@@ -3,6 +3,7 @@ use bevy::prelude::*;
 use crate::{
     components::prelude::*,
     constants::{LAYER_MAP, SPACE_BG_3},
+    game_state::GameState,
     resource::Galaxy,
 };
 
@@ -10,7 +11,8 @@ pub struct MapPlugin;
 
 impl Plugin for MapPlugin {
     fn build(&self, app: &mut App) {
-        app.add_startup_system_to_stage(StartupStage::PostStartup, render);
+        app // setup when entering the state
+            .add_system_set(SystemSet::on_enter(GameState::Play).with_system(render));
     }
 }
 fn render(mut commands: Commands, asset_server: Res<AssetServer>, galaxy: Res<Galaxy>) {

@@ -4,10 +4,10 @@ pub struct EventPlugin;
 
 impl Plugin for EventPlugin {
     fn build(&self, app: &mut App) {
-        app.add_event::<EntityRotate>();
-        app.add_event::<EntityAccelerate>();
-        app.add_event::<EntityDecelerate>();
-        app.add_event::<SpawnPlayer>();
+        app.add_event::<EntityRotate>()
+            .add_event::<EntityAccelerate>()
+            .add_event::<EntityDecelerate>()
+            .add_event::<SpawnPlayer>();
     }
 }
 

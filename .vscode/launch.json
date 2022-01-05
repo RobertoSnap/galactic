@@ -1,0 +1,25 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug executable 'galactic_client'",
+      "cargo": {
+        "args": ["build", "--bin=galactic_client", "--package=galactic_client"],
+        "filter": {
+          "name": "galactic_client",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "CARGO_MANIFEST_DIR": "${workspaceFolder}/client"
+      }
+    }
+  ]
+}

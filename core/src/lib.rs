@@ -1,6 +1,7 @@
 pub mod components;
 pub mod constants;
 pub mod event;
+pub mod game_state;
 pub mod input;
 pub mod map;
 pub mod movement;
